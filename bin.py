@@ -24,7 +24,6 @@ class MTAServiceAlerts(object):
 		self.MTA_URL = 'http://web.mta.info/status/serviceStatus.txt'
 		self.url_text = _get_text_from_url(self.MTA_URL)
 		return get_dom_from_xml(self.url_text)
-		# self.service_alerts_json = json.dumps(self.service_alerts)
 
 	@property
 	def service(self):
