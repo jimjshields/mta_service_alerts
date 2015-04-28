@@ -2,7 +2,6 @@ import requests
 from lxml import etree
 import json
 from StringIO import StringIO
-from pprint import pprint
 
 
 def _get_text_from_url(url):
@@ -47,6 +46,10 @@ class MTAServiceAlerts(object):
 			'metro_north': MetroNorth().mn_dict,
 		}
 
+	@property
+	def service_alerts_json(self):
+		return json.dumps(self.service_alerts_dict)
+
 
 class TimeStamp(MTAServiceAlerts):
 
@@ -74,9 +77,6 @@ class Subways(MTAServiceAlerts):
 			self.subway_dict[name]['date'] = line.getchildren()[3].text
 			self.subway_dict[name]['time'] = line.getchildren()[4].text
 
-	@property
-	def lines(self):
-		return [line for line in self.subway_obj.getchildren()]
 
 class Buses(MTAServiceAlerts):
 
@@ -91,9 +91,6 @@ class Buses(MTAServiceAlerts):
 			self.bus_dict[name]['date'] = line.getchildren()[3].text
 			self.bus_dict[name]['time'] = line.getchildren()[4].text
 
-	@property
-	def lines(self):
-		return [line for line in self.bus_obj.getchildren()]
 
 class BT(MTAServiceAlerts):
 
@@ -108,9 +105,6 @@ class BT(MTAServiceAlerts):
 			self.bt_dict[name]['date'] = line.getchildren()[3].text
 			self.bt_dict[name]['time'] = line.getchildren()[4].text
 
-	@property
-	def lines(self):
-		return [line for line in self.bt_obj.getchildren()]
 
 class LIRR(MTAServiceAlerts):
 
@@ -125,9 +119,6 @@ class LIRR(MTAServiceAlerts):
 			self.lirr_dict[name]['date'] = line.getchildren()[3].text
 			self.lirr_dict[name]['time'] = line.getchildren()[4].text
 
-	@property
-	def lines(self):
-		return [line for line in self.lirr_obj.getchildren()]
 
 class MetroNorth(MTAServiceAlerts):
 
