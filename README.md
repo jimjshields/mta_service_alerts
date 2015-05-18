@@ -3,8 +3,8 @@
 The MTA's 'API' for service alerts by service type and line is found [here](http://web.mta.info/status/serviceStatus.txt).
 
 The goal of this project is twofold:
-1. Make the current 'API' (an XML document that updated every few minutes) more-easily digested for developers. Ideally, as a JSON.
-2. Expand upon that to make a more useful API.
+* Make the current 'API' (an XML document that updated every few minutes) more-easily digested for developers. Ideally, as a JSON.
+* Expand upon that to make a more useful API.
   * Parse the alerts to effectively categorize/tag by line, alert type, station, etc.
   * Expose endpoints to make them easily accessible.
 
