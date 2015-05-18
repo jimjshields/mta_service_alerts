@@ -1,17 +1,5 @@
-import requests
-from lxml import etree
 import json
-from StringIO import StringIO
-
-
-def _get_text_from_url(url):
-	res = requests.get(url)
-	return res.text
-
-
-def get_dom_from_xml(xml):
-	parser = etree.HTMLParser()
-	return etree.parse(StringIO(xml), parser)
+from util import get_text_from_url, get_dom_from_xml
 
 
 class MTAServiceAlerts(object):
@@ -22,7 +10,7 @@ class MTAServiceAlerts(object):
 	@property
 	def service_alerts(self):
 		self.MTA_URL = 'http://web.mta.info/status/serviceStatus.txt'
-		self.url_text = _get_text_from_url(self.MTA_URL)
+		self.url_text = get_text_from_url(self.MTA_URL)
 		return get_dom_from_xml(self.url_text)
 
 	@property
@@ -131,3 +119,9 @@ class MetroNorth(MTAServiceAlerts):
 			self.mn_dict[name]['text'] = line.getchildren()[2].text
 			self.mn_dict[name]['date'] = line.getchildren()[3].text
 			self.mn_dict[name]['time'] = line.getchildren()[4].text
+
+
+sa = MTAServiceAlerts()
+from pprint import pprint
+
+pprint(sa.service_alerts_json)
