@@ -28,7 +28,7 @@ def insert_mta_feed(mta_data, conn):
 
 
 def mta_scraper_admin():
-    engine = create_engine(MTA_FEED_URL)
+    engine = create_engine(MYSQL_CONNECTION_STRING)
     conn = engine.connect()
     mta_data = get_mta_feed()
     insert_mta_feed(mta_data, conn)
