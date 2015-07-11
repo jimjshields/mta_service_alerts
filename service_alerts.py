@@ -1,17 +1,25 @@
 import json
+import os
 from util import get_text_from_url, get_dom_from_xml
+from datetime import datetime
+from sqlalchemy import create_engine
+
+MYSQL_CONNECTION_STRING = os.environ['MYSQL_CONNECTION_STRING']
+MTA_URL = 'http://web.mta.info/status/serviceStatus.txt'
 
 
 class MTAServiceAlerts(object):
 
-	def __init__(self):
-		pass
+	def __init__(self, id):
+		self.conn = create_engine(MYSQL_CONNECTION_STRING).connect()
+		self.feeds = self.conn.execute('select * from mta_feed where id = {id}'.format(id=id)).fetchall()
+		self.doms = [(feed[1], get_dom_from_xml(feed[2])) for feed in self.feeds]
 	
 	@property
 	def service_alerts(self):
 		self.MTA_URL = 'http://web.mta.info/status/serviceStatus.txt'
 		self.url_text = get_text_from_url(self.MTA_URL)
-		return get_dom_from_xml(self.url_text)
+		return get_dom_from_xml(self.most_recent_feed)
 
 	@property
 	def service(self):
@@ -119,9 +127,3 @@ class MetroNorth(MTAServiceAlerts):
 			self.mn_dict[name]['text'] = line.getchildren()[2].text
 			self.mn_dict[name]['date'] = line.getchildren()[3].text
 			self.mn_dict[name]['time'] = line.getchildren()[4].text
-
-
-sa = MTAServiceAlerts()
-from pprint import pprint
-
-pprint(sa.service_alerts_json)
