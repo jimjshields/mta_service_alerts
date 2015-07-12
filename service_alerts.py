@@ -1,6 +1,6 @@
 import json
 import os
-from util import get_text_from_url, get_dom_from_xml
+from util import get_dom_from_xml
 from sqlalchemy import create_engine
 
 MYSQL_CONNECTION_STRING = os.environ['MYSQL_CONNECTION_STRING']
