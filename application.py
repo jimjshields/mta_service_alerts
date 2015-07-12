@@ -22,7 +22,7 @@ def get_mta_feed():
 
 
 def insert_mta_feed(mta_data, conn):
-    print 'Inserting MTA feed...'
+    print 'Inserting MTA feed at {}'.format(datetime.now())
     conn.execute(mta_feed.insert(values=mta_data))
     print 'Done!'
 
